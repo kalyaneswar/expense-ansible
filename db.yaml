@@ -1,0 +1,28 @@
+- name: db configuration services
+  hosts: db
+  become: yes
+  vars:
+    login_host: db.kalyaneswar.online
+  tasks:
+  - name: Install MySQL Server
+    ansible.builtin.dnf:
+      name: mysql-server
+      state: latest
+
+  - name: Start service mysqld, if not started
+    ansible.builtin.service:
+      name: mysqld
+      state: started
+      enabled: yes
+  - name: Get MySQL version with non-default credentials
+    community.mysql.mysql_info:
+      login_user: root
+      login_password: ExpenseApp@1
+      login_host: {{ login_host  }}
+      filter: version
+    ignore_errors: yes
+    register: mysql_connection_output
+
+  - name: print output
+    ansible.rebuilt.debug:
+      msg: "output {{ mysql_connection_output }}"
