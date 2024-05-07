@@ -6,20 +6,20 @@
 
   tasks:
   - name: disable nodeJS
-    ansible.buitin.command: dnf module disable nodejs -y
+    aansible.builtin.command: dnf module disable nodejs -y
 
   - name: enable nodeJS
-    ansible.buitin.command: dnf module enable nodejs:20 -y
+    aansible.builtin.command: dnf module enable nodejs:20 -y
   
   - name: Install nodeJS
-    ansible.buitin.command: dnf install nodejs -y 
+    ansible.builtin.command: dnf install nodejs -y 
 
     ansible.builtin.dnf:
       name: nodejs
       state: latest
 
   - name: Check if the user exists
-    ansible.buitin.command: id {{ username }}
+    aansible.builtin.command: id {{ username }}
     register: check_user
     ignore_errors: yes
 
@@ -35,4 +35,4 @@
     path: /app
     state: directory
   
-  
+
