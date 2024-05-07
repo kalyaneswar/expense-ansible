@@ -6,10 +6,10 @@
 
   tasks:
   - name: disable nodeJS
-    aansible.builtin.command: dnf module disable nodejs -y
+    ansible.builtin.command: dnf module disable nodejs -y
 
   - name: enable nodeJS
-    aansible.builtin.command: dnf module enable nodejs:20 -y
+    ansible.builtin.command: dnf module enable nodejs:20 -y
   
   - name: Install nodeJS
     ansible.builtin.command: dnf install nodejs -y 
@@ -19,7 +19,7 @@
       state: latest
 
   - name: Check if the user exists
-    aansible.builtin.command: id {{ username }}
+    ansible.builtin.command: id {{ username }}
     register: check_user
     ignore_errors: yes
 
