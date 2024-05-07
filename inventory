@@ -1,2 +1,8 @@
 [db]
 db.kalyaneswar.online
+
+[backend]
+backend.kalyaneswar.online
+
+[frontend]
+frontend.kalyaneswar.online

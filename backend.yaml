@@ -1,0 +1,38 @@
+- name: Backend server configure
+  hosts: backend
+  become: yes
+  vars:
+    username: expense
+
+  tasks:
+  - name: disable nodeJS
+    ansible.buitin.command: dnf module disable nodejs -y
+
+  - name: enable nodeJS
+    ansible.buitin.command: dnf module enable nodejs:20 -y
+  
+  - name: Install nodeJS
+    ansible.buitin.command: dnf install nodejs -y 
+
+    ansible.builtin.dnf:
+      name: nodejs
+      state: latest
+
+  - name: Check if the user exists
+    ansible.buitin.command: id {{ username }}
+    register: check_user
+    ignore_errors: yes
+
+  - name: Add the user if it doesn't exist
+    ansible.builtin.user:
+      name: "{{ username }}"
+        # Define other user parameters here
+      state: present
+    when: check_user.rc != 0
+
+  - name: Create app directory if it does not exist
+    ansible.builtin.file:
+    path: /app
+    state: directory
+  
+  
