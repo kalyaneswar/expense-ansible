@@ -40,6 +40,11 @@
     ansible.builtin.copy:
       src: expense.conf
       dest: /etc/nginx/default.d/expense.conf
+
+  - name: Restart service httpd, in all cases
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
   
     
   
