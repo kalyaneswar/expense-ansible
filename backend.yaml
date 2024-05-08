@@ -15,7 +15,7 @@
   
   - name: Install nodeJS
     ansible.builtin.dnf:
-      name: {{ item }}
+      name: "{{ item }}"
       state: latest
     loop:
     - nodejs
