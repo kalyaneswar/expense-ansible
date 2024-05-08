@@ -3,6 +3,8 @@
   become: yes
   vars:
     username: expense
+    login_host: db.kalyaneswar.online
+    login_password: ExpenseApp@1
 
   tasks:
   - name: disable nodeJS
@@ -13,8 +15,12 @@
   
   - name: Install nodeJS
     ansible.builtin.dnf:
-      name: nodejs
+      name: {{ item }}
       state: latest
+    loop:
+    - nodejs
+    - mysql
+
 
   - name: Check if the user exists
     ansible.builtin.command: id {{ username }}
@@ -54,3 +60,23 @@
       src: backend.service
       dest: /etc/systemd/system/backend.service
 
+  - name: import data into mysql
+    community.mysql.mysql_db:
+      login_user: root
+      login_password: {{ login_password }}
+      login_host: {{ login_host }}
+      target: /app/schema/backend.sql
+      state: import
+      name: all
+
+  - name: demon reload
+    ansible.builtin.systemd_service:
+      daemon_reload: true
+
+  
+  - name: start and enable backend services
+    ansible.builtin.systemd_service:
+      name: backend
+      daemon_reload: true
+      state: started
+      enabled: true
